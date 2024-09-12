@@ -11,7 +11,7 @@ View a Next.js Demo [here](https://codesandbox.io/p/devbox/tgt9w6)
 Install using npm
 
 ```
-npm install image-slider-3d
+npm install react-image-slider-3d
 ```
 
 ## Usage
