@@ -10,7 +10,7 @@
     "url": "git+https://github.com/ahmedyahiaalkaff/image_slider_3d.git"
   },
   "license": "MIT",
-  "version": "0.1.1",
+  "version": "0.1.2",
   "type": "module",
   "main": "dist/main.js",
   "types": "dist/main.d.ts",
