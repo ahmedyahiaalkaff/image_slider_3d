@@ -1,3 +1,50 @@
-.h1 {
-  color: red;
+:root{
+  --perspective: 1000px;
+  --xRotation: 20deg;
+  --animation-duration: 3s;
+  --animation-timing-function: linear;
+  --animation-iteration-count: infinite;
+  --animation-direction: normal;
+  --animation-delay: 0s;
+  --animation-fill-mode: none;
+}
+
+.imageSlider {
+  position: relative;
+}
+
+.slider {
+  position: absolute;
+  width: 200px;
+  height: 250px;
+  transform-style: preserve-3d;
+  transform: perspective(var(--perspective)) rotateX(var(--xRotation));
+  animation-name: rotating;
+  animation-duration: var(--animation-duration);
+  animation-timing-function: var(--animation-timing-function);
+  animation-iteration-count: var(--animation-iteration-count);
+  animation-direction: var(--animation-direction);
+  animation-delay: var(--animation-delay);
+  animation-fill-mode: var(--animation-fill-mode);
+}
+
+@keyframes rotating {
+  from {
+    transform: perspective(var(--perspective)) rotateX(var(--xRotation)) rotateY(0deg);
+  }
+  to {
+    transform: perspective(var(--perspective)) rotateX(var(--xRotation)) rotateY(360deg);
+  }
+}
+
+.imageSlider .item {
+  position: absolute;
+  inset: 0 0 0 0;
+  /* transform: translateZ(550px); */
+}
+
+.imageSlider .item img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
 }

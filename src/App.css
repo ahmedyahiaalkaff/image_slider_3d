@@ -1,0 +1,20 @@
+
+main {
+  margin: 0;
+  padding: 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.content{
+  z-index: 1;
+  color: rgb(179, 152, 152);
+  position: absolute;
+}
+
+.imageSlider{
+  z-index: 0;
+  width: 200px;
+  height: 100px;
+}

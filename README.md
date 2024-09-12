@@ -1,50 +1,53 @@
-# React + TypeScript + Vite
+# 3D Image Slider React Wrapper
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+This 3D Image slider was inspired by the [video](https://www.youtube.com/watch?v=yqaLSlPOUxM) created by [Lun Dev Code](https://www.youtube.com/@lundeveloper)
 
-Currently, two official plugins are available:
+This library is a react wrapper that allows the use of the slider in React and Next.js projects. There are number of options you can try changing to change the view and animation options.
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react/README.md) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+View a Next.js Demo [here](https://codesandbox.io/p/devbox/tgt9w6)
 
-## Expanding the ESLint configuration
+## Installation
 
-If you are developing a production application, we recommend updating the configuration to enable type aware lint rules:
+Install using npm
 
-- Configure the top-level `parserOptions` property like this:
-
-```js
-export default tseslint.config({
-  languageOptions: {
-    // other options...
-    parserOptions: {
-      project: ['./tsconfig.node.json', './tsconfig.app.json'],
-      tsconfigRootDir: import.meta.dirname,
-    },
-  },
-})
+```
+npm install image-slider-3d
 ```
 
-- Replace `tseslint.configs.recommended` to `tseslint.configs.recommendedTypeChecked` or `tseslint.configs.strictTypeChecked`
-- Optionally add `...tseslint.configs.stylisticTypeChecked`
-- Install [eslint-plugin-react](https://github.com/jsx-eslint/eslint-plugin-react) and update the config:
+## Usage
 
-```js
-// eslint.config.js
-import react from 'eslint-plugin-react'
-
-export default tseslint.config({
-  // Set the react version
-  settings: { react: { version: '18.3' } },
-  plugins: {
-    // Add the react plugin
-    react,
-  },
-  rules: {
-    // other rules...
-    // Enable its recommended rules
-    ...react.configs.recommended.rules,
-    ...react.configs['jsx-runtime'].rules,
-  },
-})
+- Import the library
+  ```
+  import { ImageSlider } from "image-slider-3d";
+  ```
+- The following code is a usage example of library
 ```
+        <ImageSlider
+          images={[
+            {src: 'https://picsum.photos/200/300?random=1&blur=2'},
+            {src: 'https://picsum.photos/200/300?random=2'},
+            {src: 'https://picsum.photos/200/300?random=3'},
+            {src: 'https://picsum.photos/200/300?random=4'},
+            {src: 'https://picsum.photos/200/300?random=5'}
+          ]}
+          xRotation="-30deg"
+          perspective="1000px"
+          zTranslation="200px"
+          className="imageSlider"
+        />
+```
+## Props
+
+| Prop| Default Value | Required    | Description | Data Type |
+|-----|---------------|-------------|-------------|-----------|
+|images|N/A|Yes| An array of objects containing src attribute e.g. ```[{ src: 'url to image'}] ```| Array of objects with key src of type string |
+|perspective|1000px|No|value of perspective transformation is the distance between z=0 and user| string|
+|xRotation|20deg|No|value of rotation of the slider around the X axis| string|
+|zTranslation|300px|No|distance between z=0 and items| string|
+|className|imageSlider|No|className of the container div| string|
+|animationDuration|3s|No|Duration of the animation|string|
+|animationTimingFunction|linear|No|Timing function of the animation|string|
+|animationIterationCount|infinite|No|Count of the animation's iterations|string|
+|animationDirection|normal|No|direction of the animation|string|
+|animationDelay|0s|No|delay before start of the animation|string|
+|animationFillMode|0s|No|animation fill mode css: animation-fill-mode|string|
