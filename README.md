@@ -18,7 +18,7 @@ npm install image-slider-3d
 
 - Import the library
   ```
-  import { ImageSlider } from "image-slider-3d";
+  import { ImageSlider } from "react-image-slider-3d";
   ```
 - The following code is a usage example of library
 ```
