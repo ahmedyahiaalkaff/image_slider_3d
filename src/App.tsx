@@ -6,6 +6,7 @@ type ControlsState = {
   perspective: number;
   zTranslation: number;
   xRotation: number;
+  animationDuration: number;
 };
 type ActionType =
   | {
@@ -19,6 +20,9 @@ type ActionType =
   | {
       type: "XROTATION";
       xRotation: number;
+    }| {
+      type: "ANIMATION_DURATION";
+      animationDuration: number;
     };
 
 function reducer(state: ControlsState, action: ActionType): ControlsState {
@@ -29,11 +33,13 @@ function reducer(state: ControlsState, action: ActionType): ControlsState {
       return { ...state, zTranslation: action.zTranslation };
     case "XROTATION":
       return { ...state, xRotation: action.xRotation };
+    case "ANIMATION_DURATION":
+      return { ...state, animationDuration: action.animationDuration };
   }
   throw new Error("unknown action");
 }
 
-const initialState: ControlsState = { perspective: 1000, zTranslation: 200, xRotation: -30 };
+const initialState: ControlsState = { perspective: 1000, zTranslation: 200, xRotation: -30, animationDuration: 6 };
 
 function App() {
   const [state, dispatch] = useReducer(reducer, initialState);
@@ -50,6 +56,7 @@ function App() {
         xRotation={`${state.xRotation}deg`}
         perspective={`${state.perspective}px`}
         zTranslation={`${state.zTranslation}px`}
+        animationDuration={`${state.animationDuration}s`}
         className="imageSlider"
       />
       <h2 className="content">Image Slider 3D</h2>
@@ -110,6 +117,25 @@ function App() {
             />
           </label>
           {state.xRotation} deg
+        </div>
+        <div className="animationDurationInput">
+          <label htmlFor="animationDurationInput">
+            Animation Duration:
+            <input
+              type="range"
+              id="animationDurationInput"
+              value={state.animationDuration}
+              min={2}
+              max={20}
+              onChange={(e) =>
+                dispatch({
+                  type: "ANIMATION_DURATION",
+                  animationDuration: Number(e.currentTarget.value),
+                })
+              }
+            />
+          </label>
+          {state.animationDuration} s
         </div>
       </footer>
     </main>
