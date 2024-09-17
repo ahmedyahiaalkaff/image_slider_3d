@@ -7,6 +7,7 @@ type ControlsState = {
   zTranslation: number;
   xRotation: number;
   animationDuration: number;
+  animationTimingFunction: string;
 };
 type ActionType =
   | {
@@ -23,7 +24,11 @@ type ActionType =
     }| {
       type: "ANIMATION_DURATION";
       animationDuration: number;
+    }| {
+      type: "ANIMATION_TIMING_FUNCTION";
+      animationTimingFunction: string;
     };
+
 
 function reducer(state: ControlsState, action: ActionType): ControlsState {
   switch (action.type) {
@@ -35,11 +40,17 @@ function reducer(state: ControlsState, action: ActionType): ControlsState {
       return { ...state, xRotation: action.xRotation };
     case "ANIMATION_DURATION":
       return { ...state, animationDuration: action.animationDuration };
+    case "ANIMATION_TIMING_FUNCTION":
+      return { ...state, animationTimingFunction: action.animationTimingFunction };
   }
   throw new Error("unknown action");
 }
 
-const initialState: ControlsState = { perspective: 1000, zTranslation: 200, xRotation: -30, animationDuration: 6 };
+const initialState: ControlsState = { perspective: 1000, zTranslation: 200, xRotation: -30, animationDuration: 6, animationTimingFunction: 'linear' };
+
+const animationTimingFunctionOptions = [
+  'linear', 'ease-in', 'ease-out', 'ease-in-out'
+]
 
 function App() {
   const [state, dispatch] = useReducer(reducer, initialState);
@@ -57,6 +68,7 @@ function App() {
         perspective={`${state.perspective}px`}
         zTranslation={`${state.zTranslation}px`}
         animationDuration={`${state.animationDuration}s`}
+        animationTimingFunction={state.animationTimingFunction}
         className="imageSlider"
       />
       <h2 className="content">Image Slider 3D</h2>
@@ -125,7 +137,7 @@ function App() {
               type="range"
               id="animationDurationInput"
               value={state.animationDuration}
-              min={2}
+              min={1}
               max={20}
               onChange={(e) =>
                 dispatch({
@@ -136,6 +148,27 @@ function App() {
             />
           </label>
           {state.animationDuration} s
+        </div>
+        <div className="animationTimingFunctionInput">
+          <label htmlFor="animationTimingFunctionInput">
+            Animation Timing Function:
+            <select
+              id="animationTimingFunctionInput"
+              value={state.animationTimingFunction}
+              onChange={(e) =>
+                dispatch({
+                  type: "ANIMATION_TIMING_FUNCTION",
+                  animationTimingFunction: e.currentTarget.value,
+                })
+              }
+            >
+              {animationTimingFunctionOptions.map(o=>{
+                return (
+                  <option key={o} value={o}>{o}</option>
+                )
+              })}
+            </select>
+          </label>
         </div>
       </footer>
     </main>
