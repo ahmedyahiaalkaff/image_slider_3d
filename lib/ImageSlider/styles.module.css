@@ -36,15 +36,3 @@
     transform: perspective(var(--perspective)) rotateX(var(--xRotation)) rotateY(360deg);
   }
 }
-
-.imageSlider .item {
-  position: absolute;
-  inset: 0 0 0 0;
-  /* transform: translateZ(550px); */
-}
-
-.imageSlider .item img {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-}

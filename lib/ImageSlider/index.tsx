@@ -1,8 +1,8 @@
+import { useEffect, useRef } from "react";
+import { ImageSliderImagesList } from "../ImageSliderImagesList";
+import type { image } from "../ImageSliderImagesList";
 import styles from "./styles.module.css";
 
-type image = {
-  src: string;
-};
 
 type ImageSliderProps = {
   images: image[];
@@ -12,7 +12,7 @@ type ImageSliderProps = {
   className?: string;
   animationDuration?: string;
   animationTimingFunction?: string;
-  animationIterationCount?: string;
+  animationIterationCount?: "infinite" | number;
   animationDirection?: string;
   animationDelay?: string;
   animationFillMode?: string;
@@ -31,8 +31,25 @@ export function ImageSlider({
   animationDelay,
   animationFillMode,
 }: ImageSliderProps) {
+  const slider = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    if (slider && slider.current) {
+      slider.current.style.animationName = "none";
+      setTimeout(() => {
+        if (slider && slider.current) {
+          slider.current.style.animationName = "";
+        }
+      }, 10);
+    }
+  }, [animationIterationCount]);
+
   return (
-    <div className={`${styles.imageSlider} ${className ? className : "imageSlider"}`}>
+    <div
+      className={`${styles.imageSlider} ${
+        className ? className : "imageSlider"
+      }`}
+    >
       <div
         className={styles.slider}
         style={
@@ -47,23 +64,9 @@ export function ImageSlider({
             "--animation-fill-mode": animationFillMode,
           } as React.CSSProperties
         }
+        ref={slider}
       >
-        {images.map((image, index) => {
-          return (
-            <div
-              className={styles.item}
-              style={{
-                transform: `
-                rotateY(${(index / images.length) * 360}deg)
-                translateZ(${zTranslation ? zTranslation : "300px"})
-              `,
-              }}
-              key={image.src}
-            >
-              <img src={image.src} />
-            </div>
-          );
-        })}
+        <ImageSliderImagesList images={images} zTranslation={zTranslation}/>
       </div>
     </div>
   );

@@ -1,5 +1,5 @@
 import { useReducer } from "react";
-import { ImageSlider } from "../";
+import { ImageSlider } from "../lib/ImageSlider";
 import "./App.css";
 
 type ControlsState = {
@@ -8,6 +8,8 @@ type ControlsState = {
   xRotation: number;
   animationDuration: number;
   animationTimingFunction: string;
+  animationIterationCount: "infinite" | number;
+  animationDirection: string;
 };
 type ActionType =
   | {
@@ -21,14 +23,23 @@ type ActionType =
   | {
       type: "XROTATION";
       xRotation: number;
-    }| {
+    }
+  | {
       type: "ANIMATION_DURATION";
       animationDuration: number;
-    }| {
+    }
+  | {
       type: "ANIMATION_TIMING_FUNCTION";
       animationTimingFunction: string;
+    }
+  | {
+      type: "ANIMATION_ITERATION_COUNT";
+      animationIterationCount: "infinite" | number;
+    }
+  | {
+      type: "ANIMATION_DIRECTION";
+      animationDirection: string;
     };
-
 
 function reducer(state: ControlsState, action: ActionType): ControlsState {
   switch (action.type) {
@@ -41,16 +52,47 @@ function reducer(state: ControlsState, action: ActionType): ControlsState {
     case "ANIMATION_DURATION":
       return { ...state, animationDuration: action.animationDuration };
     case "ANIMATION_TIMING_FUNCTION":
-      return { ...state, animationTimingFunction: action.animationTimingFunction };
+      return {
+        ...state,
+        animationTimingFunction: action.animationTimingFunction,
+      };
+    case "ANIMATION_ITERATION_COUNT":
+      return {
+        ...state,
+        animationIterationCount: action.animationIterationCount,
+      };
+    case "ANIMATION_DIRECTION":
+      return {
+        ...state,
+        animationDirection: action.animationDirection,
+      };
   }
   throw new Error("unknown action");
 }
 
-const initialState: ControlsState = { perspective: 1000, zTranslation: 200, xRotation: -30, animationDuration: 6, animationTimingFunction: 'linear' };
+const initialState: ControlsState = {
+  perspective: 1000,
+  zTranslation: 200,
+  xRotation: -30,
+  animationDuration: 6,
+  animationTimingFunction: "linear",
+  animationIterationCount: "infinite",
+  animationDirection: "normal",
+};
 
 const animationTimingFunctionOptions = [
-  'linear', 'ease-in', 'ease-out', 'ease-in-out'
-]
+  "linear",
+  "ease-in",
+  "ease-out",
+  "ease-in-out",
+];
+
+const animationDirectionOptions = [
+  "normal",
+  "reverse",
+  "alternate",
+  "alternate-reverse",
+];
 
 function App() {
   const [state, dispatch] = useReducer(reducer, initialState);
@@ -69,6 +111,8 @@ function App() {
         zTranslation={`${state.zTranslation}px`}
         animationDuration={`${state.animationDuration}s`}
         animationTimingFunction={state.animationTimingFunction}
+        animationIterationCount={state.animationIterationCount}
+        animationDirection={state.animationDirection}
         className="imageSlider"
       />
       <h2 className="content">Image Slider 3D</h2>
@@ -162,10 +206,72 @@ function App() {
                 })
               }
             >
-              {animationTimingFunctionOptions.map(o=>{
+              {animationTimingFunctionOptions.map((o) => {
                 return (
-                  <option key={o} value={o}>{o}</option>
-                )
+                  <option key={o} value={o}>
+                    {o}
+                  </option>
+                );
+              })}
+            </select>
+          </label>
+        </div>
+        <div className="animationIterationCountInput">
+          <label htmlFor="animationIterationCountInput">
+            Animation Iteration Count:
+            <input
+              type="text"
+              id="animationIterationCountInput"
+              value={state.animationIterationCount}
+              onChange={(e) =>
+                dispatch({
+                  type: "ANIMATION_ITERATION_COUNT",
+                  animationIterationCount: Number(e.currentTarget.value),
+                })
+              }
+            />
+          </label>
+          <label htmlFor="animationIterationCountInputInfinite">
+            Infinite
+            <input
+              type="checkbox"
+              id="animationIterationCountInputInfinite"
+              checked={state.animationIterationCount == "infinite"}
+              onChange={(e) => {
+                if (e.currentTarget.checked) {
+                  dispatch({
+                    type: "ANIMATION_ITERATION_COUNT",
+                    animationIterationCount: "infinite",
+                  });
+                  return;
+                }
+                dispatch({
+                  type: "ANIMATION_ITERATION_COUNT",
+                  animationIterationCount: 1,
+                });
+              }}
+            />
+          </label>
+        </div>
+        <div className="animationDirectionInput">
+          <label htmlFor="animationDirectionInput">
+            Animation Direction:
+            <select
+              id="animationDirectionInput"
+              value={state.animationDirection}
+              onChange={(e) =>
+                dispatch({
+                  type: "ANIMATION_DIRECTION",
+                  animationDirection: e.currentTarget.value,
+                })
+              }
+            >
+              {animationDirectionOptions.map((o) => {
+                return (
+                  <option key={o} value={o}>
+                    {o}
+                  </option>
+                );
               })}
             </select>
           </label>
