@@ -117,45 +117,47 @@ function App() {
       />
       <h2 className="content">Image Slider 3D</h2>
       <footer className="controls">
-        <div className="perspectiveInput">
-          <label htmlFor="perspectiveInput">
-            Perspective:
-            <input
-              type="range"
-              id="perspectiveInput"
-              value={state.perspective}
-              min={0}
-              max={3000}
-              onChange={(e) =>
-                dispatch({
-                  type: "PERSPECTIVE",
-                  perspective: Number(e.currentTarget.value),
-                })
-              }
-            />
-          </label>
-          {state.perspective} px
+        <div>
+          <div className="perspectiveInput">
+            <label htmlFor="perspectiveInput">
+              Perspective:
+              <input
+                type="range"
+                id="perspectiveInput"
+                value={state.perspective}
+                min={0}
+                max={3000}
+                onChange={(e) =>
+                  dispatch({
+                    type: "PERSPECTIVE",
+                    perspective: Number(e.currentTarget.value),
+                  })
+                }
+              />
+            </label>
+            {state.perspective} px
+          </div>
+          <div className="zTranslationInput">
+            <label htmlFor="zTranslationInput">
+              zTranslation:
+              <input
+                type="range"
+                id="zTranslationInput"
+                value={state.zTranslation}
+                min={-state.perspective}
+                max={state.perspective}
+                onChange={(e) =>
+                  dispatch({
+                    type: "ZTRANSLATION",
+                    zTranslation: Number(e.currentTarget.value),
+                  })
+                }
+              />
+            </label>
+            {state.zTranslation} px
+          </div>
         </div>
-        <div className="zTranslationInput">
-          <label htmlFor="zTranslationInput">
-            zTranslation:
-            <input
-              type="range"
-              id="zTranslationInput"
-              value={state.zTranslation}
-              min={-state.perspective}
-              max={state.perspective}
-              onChange={(e) =>
-                dispatch({
-                  type: "ZTRANSLATION",
-                  zTranslation: Number(e.currentTarget.value),
-                })
-              }
-            />
-          </label>
-          {state.zTranslation} px
-        </div>
-        <div className="xRotationInput">
+        <div><div className="xRotationInput">
           <label htmlFor="xRotationInput">
             xRotation:
             <input
@@ -192,8 +194,8 @@ function App() {
             />
           </label>
           {state.animationDuration} s
-        </div>
-        <div className="animationTimingFunctionInput">
+        </div></div>
+        <div><div className="animationTimingFunctionInput">
           <label htmlFor="animationTimingFunctionInput">
             Animation Timing Function:
             <select
@@ -252,7 +254,7 @@ function App() {
               }}
             />
           </label>
-        </div>
+        </div></div>
         <div className="animationDirectionInput">
           <label htmlFor="animationDirectionInput">
             Animation Direction:
