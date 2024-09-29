@@ -6,6 +6,8 @@ type ControlsState = {
   perspective: number;
   zTranslation: number;
   xRotation: number;
+  imageWidth: number;
+  imageHeight: number;
   animationDuration: number;
   animationTimingFunction: string;
   animationIterationCount: "infinite" | number;
@@ -23,6 +25,14 @@ type ActionType =
   | {
       type: "XROTATION";
       xRotation: number;
+    }
+  | {
+      type: "IMAGE_WIDTH";
+      imageWidth: number;
+    }
+  | {
+      type: "IMAGE_HEIGHT";
+      imageHeight: number;
     }
   | {
       type: "ANIMATION_DURATION";
@@ -49,6 +59,10 @@ function reducer(state: ControlsState, action: ActionType): ControlsState {
       return { ...state, zTranslation: action.zTranslation };
     case "XROTATION":
       return { ...state, xRotation: action.xRotation };
+    case "IMAGE_WIDTH":
+      return { ...state, imageWidth: action.imageWidth };
+    case "IMAGE_HEIGHT":
+      return { ...state, imageHeight: action.imageHeight };
     case "ANIMATION_DURATION":
       return { ...state, animationDuration: action.animationDuration };
     case "ANIMATION_TIMING_FUNCTION":
@@ -74,6 +88,8 @@ const initialState: ControlsState = {
   perspective: 1000,
   zTranslation: 200,
   xRotation: -30,
+  imageWidth: 200,
+  imageHeight: 250,
   animationDuration: 6,
   animationTimingFunction: "linear",
   animationIterationCount: "infinite",
@@ -98,24 +114,28 @@ function App() {
   const [state, dispatch] = useReducer(reducer, initialState);
   return (
     <main>
-      <ImageSlider
-        images={[
-          { src: "https://picsum.photos/200/300?random=1&blur=2" },
-          { src: "https://picsum.photos/200/300?random=2" },
-          { src: "https://picsum.photos/200/300?random=3" },
-          { src: "https://picsum.photos/200/300?random=4" },
-          { src: "https://picsum.photos/200/300?random=5" },
-        ]}
-        xRotation={`${state.xRotation}deg`}
-        perspective={`${state.perspective}px`}
-        zTranslation={`${state.zTranslation}px`}
-        animationDuration={`${state.animationDuration}s`}
-        animationTimingFunction={state.animationTimingFunction}
-        animationIterationCount={state.animationIterationCount}
-        animationDirection={state.animationDirection}
-        className="imageSlider"
-      />
-      <h2 className="content">Image Slider 3D</h2>
+      <div>
+        <ImageSlider
+          images={[
+            { src: "https://picsum.photos/200/300?random=1&blur=2" },
+            { src: "https://picsum.photos/200/300?random=2" },
+            { src: "https://picsum.photos/200/300?random=3" },
+            { src: "https://picsum.photos/200/300?random=4" },
+            { src: "https://picsum.photos/200/300?random=5" },
+          ]}
+          xRotation={`${state.xRotation}deg`}
+          perspective={`${state.perspective}px`}
+          zTranslation={`${state.zTranslation}px`}
+          imageWidth={`${state.imageWidth}px`}
+          imageHeight={`${state.imageHeight}px`}
+          animationDuration={`${state.animationDuration}s`}
+          animationTimingFunction={state.animationTimingFunction}
+          animationIterationCount={state.animationIterationCount}
+          animationDirection={state.animationDirection}
+          className="imageSlider"
+        />
+        <h2 className="content">Image Slider 3D</h2>
+      </div>
       <footer className="controls">
         <div>
           <div className="perspectiveInput">
@@ -157,104 +177,108 @@ function App() {
             {state.zTranslation} px
           </div>
         </div>
-        <div><div className="xRotationInput">
-          <label htmlFor="xRotationInput">
-            xRotation:
-            <input
-              type="range"
-              id="xRotationInput"
-              value={state.xRotation}
-              min={-360}
-              max={360}
-              onChange={(e) =>
-                dispatch({
-                  type: "XROTATION",
-                  xRotation: Number(e.currentTarget.value),
-                })
-              }
-            />
-          </label>
-          {state.xRotation} deg
+        <div>
+          <div className="xRotationInput">
+            <label htmlFor="xRotationInput">
+              xRotation:
+              <input
+                type="range"
+                id="xRotationInput"
+                value={state.xRotation}
+                min={-360}
+                max={360}
+                onChange={(e) =>
+                  dispatch({
+                    type: "XROTATION",
+                    xRotation: Number(e.currentTarget.value),
+                  })
+                }
+              />
+            </label>
+            {state.xRotation} deg
+          </div>
+          <div className="animationDurationInput">
+            <label htmlFor="animationDurationInput">
+              Animation Duration:
+              <input
+                type="range"
+                id="animationDurationInput"
+                value={state.animationDuration}
+                min={1}
+                max={20}
+                onChange={(e) =>
+                  dispatch({
+                    type: "ANIMATION_DURATION",
+                    animationDuration: Number(e.currentTarget.value),
+                  })
+                }
+              />
+            </label>
+            {state.animationDuration} s
+          </div>
         </div>
-        <div className="animationDurationInput">
-          <label htmlFor="animationDurationInput">
-            Animation Duration:
-            <input
-              type="range"
-              id="animationDurationInput"
-              value={state.animationDuration}
-              min={1}
-              max={20}
-              onChange={(e) =>
-                dispatch({
-                  type: "ANIMATION_DURATION",
-                  animationDuration: Number(e.currentTarget.value),
-                })
-              }
-            />
-          </label>
-          {state.animationDuration} s
-        </div></div>
-        <div><div className="animationTimingFunctionInput">
-          <label htmlFor="animationTimingFunctionInput">
-            Animation Timing Function:
-            <select
-              id="animationTimingFunctionInput"
-              value={state.animationTimingFunction}
-              onChange={(e) =>
-                dispatch({
-                  type: "ANIMATION_TIMING_FUNCTION",
-                  animationTimingFunction: e.currentTarget.value,
-                })
-              }
-            >
-              {animationTimingFunctionOptions.map((o) => {
-                return (
-                  <option key={o} value={o}>
-                    {o}
-                  </option>
-                );
-              })}
-            </select>
-          </label>
-        </div>
-        <div className="animationIterationCountInput">
-          <label htmlFor="animationIterationCountInput">
-            Animation Iteration Count:
-            <input
-              type="text"
-              id="animationIterationCountInput"
-              value={state.animationIterationCount}
-              onChange={(e) =>
-                dispatch({
-                  type: "ANIMATION_ITERATION_COUNT",
-                  animationIterationCount: Number(e.currentTarget.value),
-                })
-              }
-            />
-          </label>
-          <label htmlFor="animationIterationCountInputInfinite">
-            Infinite
-            <input
-              type="checkbox"
-              id="animationIterationCountInputInfinite"
-              checked={state.animationIterationCount == "infinite"}
-              onChange={(e) => {
-                if (e.currentTarget.checked) {
+        <div>
+          <div className="animationTimingFunctionInput">
+            <label htmlFor="animationTimingFunctionInput">
+              Animation Timing Function:
+              <select
+                id="animationTimingFunctionInput"
+                value={state.animationTimingFunction}
+                onChange={(e) =>
+                  dispatch({
+                    type: "ANIMATION_TIMING_FUNCTION",
+                    animationTimingFunction: e.currentTarget.value,
+                  })
+                }
+              >
+                {animationTimingFunctionOptions.map((o) => {
+                  return (
+                    <option key={o} value={o}>
+                      {o}
+                    </option>
+                  );
+                })}
+              </select>
+            </label>
+          </div>
+          <div className="animationIterationCountInput">
+            <label htmlFor="animationIterationCountInput">
+              Animation Iteration Count:
+              <input
+                type="text"
+                id="animationIterationCountInput"
+                value={state.animationIterationCount}
+                onChange={(e) =>
                   dispatch({
                     type: "ANIMATION_ITERATION_COUNT",
-                    animationIterationCount: "infinite",
-                  });
-                  return;
+                    animationIterationCount: Number(e.currentTarget.value),
+                  })
                 }
-                dispatch({
-                  type: "ANIMATION_ITERATION_COUNT",
-                  animationIterationCount: 1,
-                });
-              }}
-            />
-          </label>
-        </div></div>
+              />
+            </label>
+            <label htmlFor="animationIterationCountInputInfinite">
+              Infinite
+              <input
+                type="checkbox"
+                id="animationIterationCountInputInfinite"
+                checked={state.animationIterationCount == "infinite"}
+                onChange={(e) => {
+                  if (e.currentTarget.checked) {
+                    dispatch({
+                      type: "ANIMATION_ITERATION_COUNT",
+                      animationIterationCount: "infinite",
+                    });
+                    return;
+                  }
+                  dispatch({
+                    type: "ANIMATION_ITERATION_COUNT",
+                    animationIterationCount: 1,
+                  });
+                }}
+              />
+            </label>
+          </div>
+        </div>
         <div className="animationDirectionInput">
           <label htmlFor="animationDirectionInput">
             Animation Direction:
@@ -277,6 +301,46 @@ function App() {
               })}
             </select>
           </label>
+        </div>
+        <div>
+          <div className="imageWidthInput">
+            <label htmlFor="imageWidthInput">
+              Image Width:
+              <input
+                type="range"
+                id="imageWidthInput"
+                value={state.imageWidth}
+                min={100}
+                max={500}
+                onChange={(e) =>
+                  dispatch({
+                    type: "IMAGE_WIDTH",
+                    imageWidth: Number(e.currentTarget.value),
+                  })
+                }
+              />
+            </label>
+            {state.imageWidth} px
+          </div>
+          <div className="imageHeightInput">
+            <label htmlFor="imageHeightInput">
+              Image Height:
+              <input
+                type="range"
+                id="imageHeightInput"
+                value={state.imageHeight}
+                min={100}
+                max={500}
+                onChange={(e) =>
+                  dispatch({
+                    type: "IMAGE_HEIGHT",
+                    imageHeight: Number(e.currentTarget.value),
+                  })
+                }
+              />
+            </label>
+            {state.imageHeight} px
+          </div>
         </div>
       </footer>
     </main>

@@ -3,27 +3,30 @@ main {
   margin: 0;
   padding: 0;
   display: flex;
+  flex-direction: column;
   justify-content: center;
   align-items: center;
+  min-height: 100vh;
 }
 
 .content{
   z-index: 1;
   color: rgb(179, 152, 152);
-  position: absolute;
+  position: relative;
+  top: calc(-1*var(--image-height) - 100px);
 }
 
 .imageSlider{
   z-index: 0;
-  width: 200px;
-  height: 100px;
+  max-width: 100%;
+  min-height: 500px;
+  /* left: calc(-1*var(--image-width)/2); */
+  top: calc(var(--image-height)/2);
 }
 
 footer.controls{
   width: 100%;
   border: 1px solid rgb(7, 92, 196);
-  position: absolute;
-  bottom: 0;
   display: flex;
   flex-direction: row;
   flex-wrap: wrap;

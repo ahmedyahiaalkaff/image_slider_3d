@@ -1,6 +1,8 @@
 :root{
   --perspective: 1000px;
   --xRotation: 20deg;
+  --image-width: 200px;
+  --image-height: 250px;
   --animation-duration: 3s;
   --animation-timing-function: linear;
   --animation-iteration-count: infinite;
@@ -15,8 +17,8 @@
 
 .slider {
   position: absolute;
-  width: 200px;
-  height: 250px;
+  width: var(--image-width);
+  height: var(--image-height);
   transform-style: preserve-3d;
   transform: perspective(var(--perspective)) rotateX(var(--xRotation));
   animation-name: rotating;

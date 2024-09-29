@@ -9,6 +9,8 @@ type ImageSliderProps = {
   perspective?: string;
   xRotation?: string;
   zTranslation?: string;
+  imageWidth?: string;
+  imageHeight?: string;
   className?: string;
   animationDuration?: string;
   animationTimingFunction?: string;
@@ -23,6 +25,8 @@ export function ImageSlider({
   perspective,
   xRotation,
   zTranslation,
+  imageWidth,
+  imageHeight,
   className,
   animationDuration,
   animationTimingFunction,
@@ -56,6 +60,8 @@ export function ImageSlider({
           {
             "--perspective": perspective,
             "--xRotation": xRotation,
+            "--image-width": imageWidth,
+            "--image-height": imageHeight,
             "--animation-duration": animationDuration,
             "--animation-timing-function": animationTimingFunction,
             "--animation-iteration-count": animationIterationCount,
