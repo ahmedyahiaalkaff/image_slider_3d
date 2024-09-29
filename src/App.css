@@ -20,7 +20,6 @@ main {
   z-index: 0;
   max-width: 100%;
   min-height: 500px;
-  /* left: calc(-1*var(--image-width)/2); */
   top: calc(var(--image-height)/2);
 }
 
